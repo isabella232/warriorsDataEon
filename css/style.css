@@ -41,13 +41,13 @@ body {
 }
 
 #bestFans {
-	margin:10px;
+	/*margin:10px;*/
 }
 
 #scrollDiv {  
 	margin-left: 45%;
 	font-size: 18px;
-	width: 40%; /*same*/
+	/*width: 40%;*/
 	padding: 10%;
 	justify-content: center;
 	margin-top: -15%;

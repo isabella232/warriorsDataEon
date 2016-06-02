@@ -36,7 +36,6 @@
 				<div id = "scrollDivPic"></div>
 		</div>
 <script>
-	var numTweetsPlayer;
 	var curryWords = [
 	  'steph', 'stephen curry', 'chef curry', '#stephcurry', '#chefcurry'
 	];
@@ -90,11 +89,8 @@
 	  ssl: true
 
 	}); //pubnub
-	pubnubTweet.subscribe({
-	  channel: channel,
-	  callback: processData
-	});
-	//getStreamData()
+
+	getStreamData();
 
 	// fetch previous 75 Tweets, then realtime stream
 	function getData() {
@@ -103,7 +99,7 @@
 	    count: 75,
 	    callback: function(messages) {
 	      pubnubTweet.each(messages[0], processData);
-	      getStreamData();
+	      //getStreamData();
 	    },
 	    error: function(error) {
 	      console.log(error);
@@ -192,7 +188,31 @@
 
 	} //processData()
 
-	var nbaChannel = 'NBAChannel';
+	function bestFans() {
+	  var fanElement = document.getElementById('scrollDiv');
+	  var fanStr = document.createTextNode('Warriors fans are Tweeting more');
+	  var notFanStr = document.createTextNode('Cleveland fans are Tweeting more');
+	  var tieFanStr = document.createTextNode('Both teams\' fans are tweeting equally!');
+
+	  if (numDubsTeamWords == numCavsTeamWords) {
+	  	document.getElementById('scrollDivPic').innerHTML = '';
+	    fanElement.innerHTML = tieFanStr;
+	    fanElement.appendChild(tieFanStr);
+	  } //if
+	  else if (numDubsTeamWords > numCavsTeamWords) {
+	    fanElement.innerHTML = fanStr;
+	    document.getElementById('scrollDivPic').innerHTML = "<img src='img/dubsLogo.jpeg' border=0/></a>";
+	    fanElement.appendChild(fanStr);
+	  } else { // # Cavs hashtags > # Warriors hashtags
+	    fanElement.innerHTML = notFanStr;
+	    document.getElementById('scrollDivPic').innerHTML = "<img class = 'resize2' src='img/cavsLogo.png' border=0/></a>";
+	    fanElement.appendChild(notFanStr);
+	  } //else
+	  if (fanElement.childNodes.length >= 1) {
+	    fanElement.removeChild(fanElement.firstChild);
+	  } //if
+
+	} //bestFans()
 
 	var pubnubEon = PUBNUB.init({
 	  subscribe_key: 'sub-c-ec13adb2-2164-11e6-9327-02ee2ddab7fe', //different subscribe from Twitter
@@ -200,6 +220,7 @@
 	});
 
 	//publish chart
+		var nbaChannel = 'NBAChannel';
 	function publish2() {
 	  pubnubEon.publish({
 	    channel: nbaChannel,
@@ -318,30 +339,7 @@
 	  } //generate
 	}); //eon.chart
 
-	function bestFans() {
-	  var fanElement = document.getElementById('scrollDiv');
-	  var fanStr = document.createTextNode('Warriors fans are Tweeting more');
-	  var notFanStr = document.createTextNode('Cleveland fans are Tweeting more');
-	  var tieFanStr = document.createTextNode('Both teams\' fans are tweeting equally!');
-
-	  if (numDubsTeamWords == numCavsTeamWords) {
-	    fanElement.innerHTML = tieFanStr;
-	    fanElement.appendChild(tieFanStr);
-	  } //if
-	  else if (numDubsTeamWords > numCavsTeamWords) {
-	    fanElement.innerHTML = fanStr;
-	    document.getElementById('scrollDivPic').innerHTML = "<img src='img/dubsLogo.jpeg' border=0/></a>";
-	    fanElement.appendChild(fanStr);
-	  } else { // # Cavs hashtags > # Warriors hashtags
-	    fanElement.innerHTML = notFanStr;
-	    document.getElementById('scrollDivPic').innerHTML = "<img class = 'resize2' src='img/cavsLogo.png' border=0/></a>";
-	    fanElement.appendChild(notFanStr);
-	  } //else
-	  if (fanElement.childNodes.length >= 1) {
-	    fanElement.removeChild(fanElement.firstChild);
-	  } //if
-
-	} //bestFans()
+	
 	</script>
 	</body>
 	<footer>

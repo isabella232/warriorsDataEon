@@ -47,6 +47,13 @@ body {
 
 #scrollDiv {  
 	font-size: 18px;
+<<<<<<< HEAD
+=======
+	/*width: 40%;*/
+	padding: 10%;
+	justify-content: center;
+	margin-top: -15%;
+>>>>>>> 95a111177858b8e1b7a98c714b61d7a464a73d07
 }
 
 #scrollDivPic {

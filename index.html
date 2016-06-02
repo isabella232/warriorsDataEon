@@ -89,7 +89,11 @@
 	  ssl: true
 
 	}); //pubnub
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 95a111177858b8e1b7a98c714b61d7a464a73d07
 	getStreamData();
 
 	// fetch previous 75 Tweets, then realtime stream
@@ -99,7 +103,10 @@
 	    count: 75,
 	    callback: function(messages) {
 	      pubnubTweet.each(messages[0], processData);
+<<<<<<< HEAD
 	      //getStreamData();
+=======
+>>>>>>> 95a111177858b8e1b7a98c714b61d7a464a73d07
 	    },
 	    error: function(error) {
 	      console.log(error);

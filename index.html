@@ -13,8 +13,8 @@
 
 	</head>
 	<header>
-		<h2>PubNub Twitter Stream x Warriors Visualization </h2>
-		<p id = "timeHeader">This visualization shows who is being Tweeted about the most, and which team's hashtag is being used more. Try hovering over each player in the legend! </p>
+		<h2>Realtime Warriors PubNub Twitter Stream Data Visualization with EON.js </h2>
+		<p id = "timeHeader">This visualization shows who is being tweeted about the most, and which team's hashtag is being used more. Try hovering over each player in the legend! </p>
 	</header>
 	<body>
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PZWSZ2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -22,56 +22,44 @@
 			<div id = "playerPic">
 				<div id = "hoverImg">
 				</div>
-				<div id = "chartWrapper">
 					<div id = "chart">
 					</div> 
-				</div>
 			</div>
 		</div>
 		<div class= "container">
-			<div id = "selDiv">
-			<h4 id = "bestFans">Which team's fans are Tweeting more?</h4>
-			</div>
-				<div id = "scrollDiv"></div>
+			<!-- <div id = "selDiv"> -->
+			<h4 id = "bestFans">Which fans are tweeting more?</h4>
+				<h4 id= "scrollDiv"></h4>
 				<div id = "scrollDivPic"></div>
 		</div>
 <script>
 	var curryWords = [
 	  'steph', 'stephen curry', 'chef curry', '#stephcurry', '#chefcurry'
 	];
-
 	var draymondWords = [
 	  'draymond', 'draymond green', '#draymondgreen'
 	]
-
 	var klayWords = [
 	  'klay', 'klay thompson', 'thompson', '#klaythompson'
 	]
-
 	var splashWords = [
 	  'splash brothers', 'splash bros'
 	]
-
 	var harrisonWords = [
 	  'harrison barnes', 'barnes', '#harrisonbarnes'
 	]
-
 	var bogutWords = [
 	  'bogut', 'andrew bogut', '#andrewbogut'
 	]
-
 	var iguodalaWords = [
 	  'iguodala', 'andre iguodala', 'andreiguodala', '#iguodala'
 	]
-
 	var dubsTeamWords = [ //hardcoded warriorsvthunder
 	  '#warriors', '#warriorsnation', '#dubnation', '#gsw', '#gswarriors', 'warriors', 'golden state' //, 
 	]
-
 	var cavsTeamWords = [
 	  '#clevelandcavs', '#cavaliers', '#cavaliersnation', '#cavsnation', 'cavs', 'cavaliers', 'cleveland cavaliers'
 	]
-
 	var numIguodalaWords = 0;
 	var numBogutWords = 0;
 	var numHarrisonWords = 0;
@@ -79,44 +67,29 @@
 	var numKlayWords = 0;
 	var numDraymondWords = 0;
 	var numCurryWords = 0;
-
 	var numDubsTeamWords = 0;
 	var numCavsTeamWords = 0;
-
 	var channel = 'pubnub-twitter';
 	var pubnubTweet = PUBNUB.init({
 	  subscribe_key: 'sub-c-78806dd4-42a6-11e4-aed8-02ee2ddab7fe', //get tweets containing key words for Twitter chan
 	  ssl: true
-
 	}); //pubnub
 	getStreamData();
-
 	// fetch previous 75 Tweets, then realtime stream
-	function getData() {
-	  pubnubTweet.history({
-	    channel: channel,
-	    count: 75,
-	    callback: function(messages) {
-	      pubnubTweet.each(messages[0], processData);
-	    },
-	    error: function(error) {
-	      console.log(error);
-	      if (error) {
-	        getStreamData();
-	      }
-	    }
-	  });
-	}
-
-	function getStreamData() {
-	  pubnubTweet.subscribe({
-	    channel: channel,
-	    callback: processData
-	  });
-	}
-
+	 function getStreamData() {
+       pubnubTweet.history({
+        channel: channel,
+        count: 75,
+        callback: function(messages) {
+          pubnubTweet.each(messages[0], processData);
+        }
+      });
+    pubnubTweet.subscribe({
+        channel: channel,
+        callback: processData
+      });
+  }
 	var totalNumTweets = 0;
-
 	function processData(data) {
 	  if (!data) return;
 	  if (dubsTeamWords.some(function(v) {
@@ -181,17 +154,13 @@
 	    publish2();
 	    console.log(data);
 	  } //else if
-
 	  bestFans();
-
 	} //processData()
-
 	function bestFans() {
 	  var fanElement = document.getElementById('scrollDiv');
 	  var fanStr = document.createTextNode('Warriors fans are Tweeting more');
 	  var notFanStr = document.createTextNode('Cleveland fans are Tweeting more');
 	  var tieFanStr = document.createTextNode('Both teams\' fans are tweeting equally!');
-
 	  if (numDubsTeamWords == numCavsTeamWords) {
 	  	document.getElementById('scrollDivPic').innerHTML = '';
 	    fanElement.innerHTML = tieFanStr;
@@ -203,22 +172,19 @@
 	    fanElement.appendChild(fanStr);
 	  } else { // # Cavs hashtags > # Warriors hashtags
 	    fanElement.innerHTML = notFanStr;
-	    document.getElementById('scrollDivPic').innerHTML = "<img src='https://d1si3tbndbzwz9.cloudfront.net/basketball/team/7/small_logo.png' border=0/></a>";
+	    document.getElementById('scrollDivPic').innerHTML = "<img class = 'resize2' src='img/cavsLogo.png' border=0/></a>";
 	    fanElement.appendChild(notFanStr);
 	  } //else
 	  if (fanElement.childNodes.length >= 1) {
 	    fanElement.removeChild(fanElement.firstChild);
 	  } //if
-
 	} //bestFans()
-
 	var pubnubEon = PUBNUB.init({
 	  subscribe_key: 'sub-c-ec13adb2-2164-11e6-9327-02ee2ddab7fe', //different subscribe from Twitter
 	  publish_key: 'pub-c-01ea45a2-75a8-40af-8db0-578d519eed0e' //separate keyset generated, paired with new subscribe key
 	});
-
 	//publish chart
-		var nbaChannel = 'NBAChannel';
+	var nbaChannel = 'NBAChannel';
 	function publish2() {
 	  pubnubEon.publish({
 	    channel: nbaChannel,
@@ -238,7 +204,6 @@
 	      } //callback
 	  }); //pubnubEon
 	} //publish
-
 	//embed chart
 	eon.chart({
 	  channel: nbaChannel,
@@ -257,7 +222,6 @@
 	        'Bogut': 'purple',
 	        'Iguodala': 'orange',
 	        'Warriors hashtags': 'yellow'
-
 	      } //colors	
 	    }, //data
 	    legend: {
@@ -290,7 +254,6 @@
 	            document.getElementById('hoverImg').innerHTML = "<a href = '#'><img class = 'resize2' src='img/water.png' border=0/></a>";
 	            document.getElementById("hoverImg").style.transitionDuration = "10s";
 	          }
-
 	        }, //onmouseover
 	        //onmouseout, img goes away
 	        onmouseout: function(id) {
@@ -321,7 +284,6 @@
 	            } //last else if
 	          } //onmouseout 	
 	      } //legend.item
-
 	    }, //legend
 	    tooltip: {
 	      show: false //gets rid of hover legend
@@ -336,12 +298,11 @@
 	    } //axis
 	  } //generate
 	}); //eon.chart
-
 	
 	</script>
 	</body>
 	<footer>
 		<img class="logo" src="img/pubnubLogo.png">
-		<p>PubNub x Twitter demo using <a href="https://twitter.com/hashtag/projecteon" target="_blank">#projecteon</a> by <a href="https://twitter.com/lizziepika" target="_blank">@lizziepika</a></p>
+		<p id = "leftP">PubNub <a href="https://twitter.com/hashtag/projecteon" target="_blank">#projecteon</a> demo by <a href="https://twitter.com/lizziepika" target="_blank">@lizziepika</a></p>
 	</footer>
 </html>

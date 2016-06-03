@@ -93,29 +93,20 @@
 	getStreamData();
 
 	// fetch previous 75 Tweets, then realtime stream
-	function getData() {
-	  pubnubTweet.history({
-	    channel: channel,
-	    count: 75,
-	    callback: function(messages) {
-	      pubnubTweet.each(messages[0], processData);
-	      //getStreamData();
-	    },
-	    error: function(error) {
-	      console.log(error);
-	      if (error) {
-	        getStreamData();
-	      }
-	    }
-	  });
-	}
+	 function getStreamData() {
+       pubnubTweet.history({
+        channel: channel,
+        count: 75,
+        callback: function(messages) {
+          pubnubTweet.each(messages[0], processData);
+        }
+      });
 
-	function getStreamData() {
-	  pubnubTweet.subscribe({
-	    channel: channel,
-	    callback: processData
-	  });
-	}
+    pubnubTweet.subscribe({
+        channel: channel,
+        callback: processData
+      });
+  }
 
 	var totalNumTweets = 0;
 

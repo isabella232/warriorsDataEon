@@ -42,22 +42,17 @@ body {
 }
 
 #bestFans {
-	/*margin:10px;*/
+	margin-left:10px;
+	margin-top: -35%;
 }
 
-#scrollDiv {  
-	font-size: 18px;
-
-	/*width: 40%;*/
-/*	padding: 10%;*/
-	/*justify-content: center;*/
-	/*margin-top: -15%;*/
+#scrollDiv {
+	margin-left: 10px;
 }
 
 #scrollDivPic {
-	/*position: absolute;*/
-	margin-left: 85%;
-	margin-top: -18%;
+	margin-left:10px;
+	margin-top: 2%;
 }
 
 #playerPic {
@@ -74,15 +69,6 @@ body {
 	padding: 2.5%;
 	margin-right: 8%;
 	margin-top: -10%;
-}
-
-#chartWrapper {
-	text-align: center;
-}
-
-#selImg {
-	top: 20;
-	right:20;
 }
 
 #hoverImg {
@@ -111,8 +97,12 @@ body {
 
 footer {
 	font-size: .8em;
-	bottom: 
-	padding: 1em;
-	float: right;
-	text-align: right;
+	position:fixed;
+   	right:2%;
+   	bottom:9%;
+   	height:40px;
+   	width:100%;
+   	text-align: right;
+   	float: right;
+   	margin-top:5;
 }

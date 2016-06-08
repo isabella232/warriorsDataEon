@@ -12,26 +12,26 @@
 		<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/v/eon/0.0.10/eon.css"/>
 
 	</head>
-	<header>
-		<h2>Realtime Warriors PubNub Twitter Stream Data Visualization with EON.js </h2>
-		<p id = "timeHeader">This visualization shows who is being tweeted about the most, and which team's hashtag is being used more. Try hovering over each player in the legend! </p>
-	</header>
 	<body>
+	<header>
+		<h2>Realtime Warriors PubNub Twitter Stream Data Visualization with EON.js</h2>
+		<p id = "timeHeader">This chart, once loaded, shows who is being tweeted about the most, and which team's hashtag is being used more. Try hovering over each player in the legend! </p>
+		<p>The chart will go here once data loads</p>
+	</header>
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PZWSZ2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-		<div class= "container">
-			<div id = "playerPic">
-				<div id = "hoverImg">
-				</div>
-					<div id = "chart">
-					</div> 
-			</div>
+		<div class= "playerData">
+			<div id = "hoverImg"></div>
+			<div id = "chart"></div> 
 		</div>
+
 		<div class= "container">
-			<!-- <div id = "selDiv"> -->
-			<h4 id = "bestFans">Which fans are tweeting more?</h4>
+			<div class = "textContainer">
+				<h4 id = "bestFans">Which fans are tweeting more?</h4>
 				<h4 id= "scrollDiv"></h4>
-				<div id = "scrollDivPic"></div>
+			</div>
+			<div id = "scrollDivPic"></div>
 		</div>
+		<div style = "clear: both;"></div>
 <script>
 	var curryWords = [
 	  'steph', 'stephen curry', 'chef curry', '#stephcurry', '#chefcurry'
@@ -91,7 +91,7 @@
   }
 	var totalNumTweets = 0;
 	function processData(data) {
-	  if (!data) return;
+	  if (!data) DOCUMENT.getElementById('chart') = "Data is loading. There will be fewer tweets if it's not gametime or in season.";
 	  if (dubsTeamWords.some(function(v) {
 	      return data.text.toLowerCase().indexOf(v) !== -1;
 	    })) {

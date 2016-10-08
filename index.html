@@ -3,7 +3,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-		<title>PubNub Twitter Stream x Election</title>
+		<title>PubNub Twitter Stream x Warriors</title>
 		<meta name="description" content="Twitter x Warriors Visualization using PubNub">
 		<meta name="author" content="Lizzie Siegle">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,8 +14,8 @@
 	</head>
 	<body>
 	<header>
-		<h2>Realtime Election PubNub Twitter Stream Data Vis. with EON.js</h2>
-		<p id = "timeHeader">This chart, once loaded, shows who is being tweeted about the most </p>
+		<h2>Realtime Warriors PubNub Twitter Stream Data Visualization with EON.js</h2>
+		<p id = "timeHeader">This chart, once loaded, shows who is being tweeted about the most, and which team's hashtag is being used more. Try hovering over each player in the legend! </p>
 		<p>The chart will go here once data loads</p>
 	</header>
 		<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PZWSZ2" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -26,21 +26,49 @@
 
 		<div class= "container">
 			<div class = "textContainer">
-				<h4 id = "bestFans">Who is being tweeting about more?</h4>
+				<h4 id = "bestFans">Which fans are tweeting more?</h4>
 				<h4 id= "scrollDiv"></h4>
 			</div>
 			<div id = "scrollDivPic"></div>
 		</div>
 		<div style = "clear: both;"></div>
 <script>
-	var hillaryWords = [
-	  'hillary', 'Hillary', 'Hillary Clinton', 'HRC', 'clinton', 'Clinton'];
-	var trumpWords = [
-	  'trump', 'Donald Trump', 'donald trump', 'donald', '#trump', '#donald'
+	var curryWords = [
+	  'steph', 'stephen curry', 'chef curry', '#stephcurry', '#chefcurry'
 	];
-	
-	var numHillaryWords = 0;
-	var numTrumpWords = 0;
+	var draymondWords = [
+	  'draymond', 'draymond green', '#draymondgreen'
+	]
+	var klayWords = [
+	  'klay', 'klay thompson', 'thompson', '#klaythompson'
+	]
+	var splashWords = [
+	  'splash brothers', 'splash bros'
+	]
+	var harrisonWords = [
+	  'harrison barnes', 'barnes', '#harrisonbarnes'
+	]
+	var bogutWords = [
+	  'bogut', 'andrew bogut', '#andrewbogut'
+	]
+	var iguodalaWords = [
+	  'iguodala', 'andre iguodala', 'andreiguodala', '#iguodala'
+	]
+	var dubsTeamWords = [ //hardcoded warriorsvthunder
+	  '#warriors', '#warriorsnation', '#dubnation', '#gsw', '#gswarriors', 'warriors', 'golden state' //, 
+	]
+	var cavsTeamWords = [
+	  '#clevelandcavs', '#cavaliers', '#cavaliersnation', '#cavsnation', 'cavs', 'cavaliers', 'cleveland cavaliers'
+	]
+	var numIguodalaWords = 0;
+	var numBogutWords = 0;
+	var numHarrisonWords = 0;
+	var numSplashWords = 0;
+	var numKlayWords = 0;
+	var numDraymondWords = 0;
+	var numCurryWords = 0;
+	var numDubsTeamWords = 0;
+	var numCavsTeamWords = 0;
 	var channel = 'pubnub-twitter';
 	var pubnubTweet = PUBNUB.init({
 	  subscribe_key: 'sub-c-78806dd4-42a6-11e4-aed8-02ee2ddab7fe', //get tweets containing key words for Twitter chan
@@ -64,40 +92,87 @@
 	var totalNumTweets = 0;
 	function processData(data) {
 	  if (!data) DOCUMENT.getElementById('chart') = "Data is loading. There will be fewer tweets if it's not gametime or in season.";
-	  if (hillaryWords.some(function(v) {
+	  if (dubsTeamWords.some(function(v) {
 	      return data.text.toLowerCase().indexOf(v) !== -1;
 	    })) {
-	    numHillaryWords += 1;
-	    totalNumTweets+=1;
+	    numDubsTeamWords += 1;
 	    publish2();
 	    console.log(data);
-	  } else if (trumpWords.some(function(v) {
+	  } else if (splashWords.some(function(v) {
 	      return data.text.toLowerCase().indexOf(v) !== -1;
 	    })) {
-	    numTrumpWords += 1;
+	    numSplashWords += 1;
 	    totalNumTweets += 1;
 	    publish2();
 	    console.log(data);
-	  } 
+	  } else if (curryWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numCurryWords += 1;
+	    totalNumTweets += 1;
+	    publish2();
+	    console.log(data);
+	  } else if (draymondWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numDraymondWords += 1;
+	    totalNumTweets += 1;
+	    publish2();
+	    console.log(data);
+	  } else if (klayWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numKlayWords += 1;
+	    totalNumTweets += 1;
+	    publish2();
+	    console.log(data);
+	  } else if (harrisonWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numHarrisonWords += 1;
+	    totalNumTweets += 1;
+	    publish2();
+	    console.log(data);
+	  } else if (bogutWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numBogutWords += 1;
+	    totalNumTweets += 1;
+	    publish2();
+	    console.log(data);
+	  } else if (iguodalaWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numIguodalaWords += 1;
+	    totalNumTweets += 1;
+	    publish2();
+	    console.log(data);
+	  } else if (cavsTeamWords.some(function(v) {
+	      return data.text.toLowerCase().indexOf(v) !== -1;
+	    })) {
+	    numCavsTeamWords += 1;
+	    publish2();
+	    console.log(data);
+	  } //else if
 	  bestFans();
 	} //processData()
 	function bestFans() {
 	  var fanElement = document.getElementById('scrollDiv');
-	  var fanStr = document.createTextNode('People are tweeting about Hillary more');
-	  var notFanStr = document.createTextNode('People are tweeting about Trump more');
+	  var fanStr = document.createTextNode('Warriors fans are Tweeting more');
+	  var notFanStr = document.createTextNode('Cleveland fans are Tweeting more');
 	  var tieFanStr = document.createTextNode('They\'re tweeting equally!');
-	  if (hillaryWords == trumpWords) {
+	  if (numDubsTeamWords == numCavsTeamWords) {
 	  	document.getElementById('scrollDivPic').innerHTML = '';
 	    fanElement.innerHTML = tieFanStr;
 	    fanElement.appendChild(tieFanStr);
 	  } //if
-	  else if (hillaryWords > trumpWords) {
+	  else if (numDubsTeamWords > numCavsTeamWords) {
 	    fanElement.innerHTML = fanStr;
-	    document.getElementById('scrollDivPic').innerHTML = "<img src='img/clinton.jpeg' border=0/></a>";
+	    document.getElementById('scrollDivPic').innerHTML = "<img src='img/dubsLogo.jpeg' border=0/></a>";
 	    fanElement.appendChild(fanStr);
-	  } else { // # trump > # hillary
+	  } else { // # Cavs hashtags > # Warriors hashtags
 	    fanElement.innerHTML = notFanStr;
-	    document.getElementById('scrollDivPic').innerHTML = "<img class = 'resize2' src='img/trump.jpg' border=0/></a>";
+	    document.getElementById('scrollDivPic').innerHTML = "<img class = 'resize2' src='img/cavsLogo.png' border=0/></a>";
 	    fanElement.appendChild(notFanStr);
 	  } //else
 	  if (fanElement.childNodes.length >= 1) {
@@ -105,18 +180,23 @@
 	  } //if
 	} //bestFans()
 	var pubnubEon = PUBNUB.init({
-	  subscribe_key: 'sub-c-5f50a89e-8d8e-11e6-bb6b-0619f8945a4f', //different subscribe from Twitter
-	  publish_key: 'pub-c-98bc3516-e920-4918-bffb-f1861be32d48' //separate keyset generated, paired with new subscribe key
+	  subscribe_key: 'sub-c-ec13adb2-2164-11e6-9327-02ee2ddab7fe', //different subscribe from Twitter
+	  publish_key: 'pub-c-01ea45a2-75a8-40af-8db0-578d519eed0e' //separate keyset generated, paired with new subscribe key
 	});
 	//publish chart
-	var elChan = 'electionChannel';
+	var nbaChannel = 'NBAChannel';
 	function publish2() {
 	  pubnubEon.publish({
-	    channel: elChan,
+	    channel: nbaChannel,
 	    message: {
 	      eon: {
-	        "Hillary": numHillaryWords / totalNumTweets,
-	        "Trump": numTrumpWords / totalNumTweets,
+	        "Splash Bros": numSplashWords / totalNumTweets,
+	        "Curry": numCurryWords / totalNumTweets,
+	        "Green": numDraymondWords / totalNumTweets,
+	        "Thompson": numKlayWords / totalNumTweets,
+	        "Barnes": numHarrisonWords / totalNumTweets,
+	        "Bogut": numBogutWords / totalNumTweets,
+	        "Iguodala": numIguodalaWords / totalNumTweets
 	      }
 	    }, //msg
 	    callback: function(m) {
@@ -126,7 +206,7 @@
 	} //publish
 	//embed chart
 	eon.chart({
-	  channel: elChan,
+	  channel: nbaChannel,
 	  pubnub: pubnubEon,
 	  generate: {
 	    bindto: '#chart',
@@ -134,8 +214,14 @@
 	      labels: true,
 	      type: 'donut', //bar
 	      colors: {
-	        'Hillary': 'blue',
-	        'Trump': 'red',
+	        'Splash Bros': 'blue',
+	        'Curry': 'red',
+	        'Green': 'green',
+	        'Thompson': 'gray',
+	        'Barnes': 'pink',
+	        'Bogut': 'purple',
+	        'Iguodala': 'orange',
+	        'Warriors hashtags': 'yellow'
 	      } //colors	
 	    }, //data
 	    legend: {
@@ -143,23 +229,59 @@
 	      item: {
 	        onmouseover: function(id) {
 	          //could also get pics easily straight from Warriors website instead of having in img folder
-	          if (id == "Hillary") {
-	            document.getElementById('hoverImg').innerHTML = "<img src='img/clinton.jpeg' border=0/></a>";
+	          if (id == "Curry") {
+	            document.getElementById('hoverImg').innerHTML = "<img src='img/curry.png' border=0/></a>";
 	            document.getElementById("hoverImg").style.transitionDuration = "10s";
-	          } else if (id == "Trump") {
-	            document.getElementById('hoverImg').innerHTML = "<img src='img/trump.jpg' border=0/></a>";
+	          } else if (id == "Green") {
+	            document.getElementById('hoverImg').innerHTML = "<img src='img/draymond.png' border=0/></a>";
 	            document.getElementById("hoverImg").style.transitionDuration = "10s";
-	          } 
+	          } else if (id == "Thompson") {
+	            document.getElementById('hoverImg').innerHTML = "<img src='img/klay.png' border=0/></a>";
+	            document.getElementById("hoverImg").style.transitionDuration = "10s";
+	          } else if (id == "Barnes") {
+	            document.getElementById('hoverImg').innerHTML = "<img src='img/harrison.png' border=0/></a>";
+	            document.getElementById("hoverImg").style.transitionDuration = "10s";
+	          } else if (id == "Bogut") {
+	            document.getElementById('hoverImg').innerHTML = "<img src='img/bogut.png' border=0/></a>";
+	            document.getElementById("hoverImg").style.transitionDuration = "10s";
+	          } else if (id == "Iguodala") {
+	            document.getElementById('hoverImg').innerHTML = "<img src='img/iguodala.png' border=0/></a>";
+	            document.getElementById("hoverImg").style.transitionDuration = "10s";
+	          } else if (id == "Warriors hashtags") {
+	            document.getElementById('hoverImg').innerHTML = "<a href = '#'><img class = 'resize' src='img/win.png' border=0/></a>";
+	            document.getElementById("hoverImg").style.transitionDuration = "10s";
+	          } else if (id == "Splash Bros") {
+	            document.getElementById('hoverImg').innerHTML = "<a href = '#'><img class = 'resize2' src='img/water.png' border=0/></a>";
+	            document.getElementById("hoverImg").style.transitionDuration = "10s";
+	          }
 	        }, //onmouseover
 	        //onmouseout, img goes away
 	        onmouseout: function(id) {
-	            if (id == "Hillary") {
+	            if (id == "Curry") {
 	              document.getElementById('hoverImg').innerHTML = " ";
 	              document.getElementById("hoverImg").style.transitionDuration = "10s";
-	            } else if (id == "Trump") {
+	            } else if (id == "Green") {
 	              document.getElementById('hoverImg').innerHTML = " ";
 	              document.getElementById("hoverImg").style.transitionDuration = "10s";
-	            } 
+	            } else if (id == "Thompson") {
+	              document.getElementById('hoverImg').innerHTML = " ";
+	              document.getElementById("hoverImg").style.transitionDuration = "10s";
+	            } else if (id == "Barnes") {
+	              document.getElementById('hoverImg').innerHTML = " ";
+	              document.getElementById("hoverImg").style.transitionDuration = "10s";
+	            } else if (id == "Bogut") {
+	              document.getElementById('hoverImg').innerHTML = " ";
+	              document.getElementById("hoverImg").style.transitionDuration = "10s";
+	            } else if (id == "Iguodala") {
+	              document.getElementById('hoverImg').innerHTML = " ";
+	              document.getElementById("hoverImg").style.transitionDuration = "10s";
+	            } else if (id == "Warriors hashtags") {
+	              document.getElementById('hoverImg').innerHTML = " ";
+	              document.getElementById("hoverImg").style.transitionDuration = "10s";
+	            } else if (id == "Splash Bros") {
+	              document.getElementById('hoverImg').innerHTML = " ";
+	              document.getElementById("hoverImg").style.transitionDuration = "10s";
+	            } //last else if
 	          } //onmouseout 	
 	      } //legend.item
 	    }, //legend
